@@ -12,6 +12,7 @@ export function Navbar() {
     { to: "/", label: "Accueil" },
     { to: "/projects", label: "Projets" },
     { to: "/skills", label: "Compétences" },
+    { to: "/ctf", label: "CTF" },
     { to: "/passion", label: "Passion" },
   ];
 
@@ -28,9 +29,9 @@ export function Navbar() {
               whileHover={{ rotate: 360 }}
               transition={{ duration: 0.5 }}
             >
-              <Skull className="h-8 w-8 text-cyan-500" />
+              <Skull className="h-8 w-8 text-red-500" />
             </motion.div>
-            <span className="text-xl font-bold text-foreground group-hover:text-cyan-500 transition-colors">
+            <span className="text-xl font-bold text-foreground group-hover:text-red-500 transition-colors">
               KS
             </span>
           </Link>
@@ -41,10 +42,10 @@ export function Navbar() {
               <Link
                 key={link.to}
                 to={link.to}
-                className="text-muted-foreground hover:text-cyan-500 transition-colors relative group font-medium"
+                className="text-muted-foreground hover:text-red-500 transition-colors relative group font-medium"
               >
                 {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-500 group-hover:w-full transition-all duration-300" />
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 group-hover:w-full transition-all duration-300" />
               </Link>
             ))}
             
@@ -68,7 +69,7 @@ export function Navbar() {
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-foreground hover:text-cyan-500 transition-colors"
+              className="text-foreground hover:text-red-500 transition-colors"
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -91,7 +92,7 @@ export function Navbar() {
                   key={link.to}
                   to={link.to}
                   onClick={() => setIsOpen(false)}
-                  className="block text-muted-foreground hover:text-cyan-500 transition-colors py-2 font-medium"
+                  className="block text-muted-foreground hover:text-red-500 transition-colors py-2 font-medium"
                 >
                   {link.label}
                 </Link>

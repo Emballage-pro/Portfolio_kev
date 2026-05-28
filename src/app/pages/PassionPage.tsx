@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Trophy, Target, Zap, Crown, Brain, Users, Star, Award, Loader2, TrendingUp } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/app/components/LanguageContext";
 
 interface ChessComStats {
   chess_rapid?: { last: { rating: number } };
@@ -14,6 +15,7 @@ interface ChessComStats {
 }
 
 export function PassionPage() {
+  const { t } = useLanguage();
   const [chessStats, setChessStats] = useState<ChessComStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,120 +25,115 @@ export function PassionPage() {
       try {
         const response = await fetch('https://api.chess.com/pub/player/bobby-pro/stats');
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des statistiques');
+          throw new Error(t("passion.live_error"));
         }
         const data = await response.json();
         setChessStats(data);
         setLoading(false);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Erreur inconnue');
+        setError(err instanceof Error ? err.message : t("passion.live_unknown"));
         setLoading(false);
       }
     };
 
     fetchChessStats();
-  }, []);
+  }, [t]);
 
   const chessCompetitionImg = "https://images.unsplash.com/photo-1697753594185-8ce7ea802d15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGVzcyUyMGNvbXBldGl0aW9uJTIwdG91cm5hbWVudHxlbnwxfHx8fDE3NzMwNjc0MTB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
   const chessBoardImg = "https://images.unsplash.com/photo-1634264719918-d1d67697b698?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGVzcyUyMGJvYXJkJTIwc3RyYXRlZ3klMjBwaWVjZXN8ZW58MXx8fHwxNzczMDY3NDExfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
   const chessThinkingImg = "https://images.unsplash.com/photo-1721641809341-bfc9706039cf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGVzcyUyMHBsYXllciUyMHRoaW5raW5nfGVufDF8fHx8MTc3MzA2NzQxMXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
 
   const stats = [
-    { icon: Star, label: "Classement ELO", value: "1500" },
-    { icon: Trophy, label: "Compétitions", value: "Multiple" },
-    { icon: Brain, label: "Style de Jeu", value: "Tactique" },
-    { icon: Award, label: "Années de Pratique", value: "5+" },
+    { icon: Star, label: t("passion.stats.elo"), value: "1500" },
+    { icon: Trophy, label: t("passion.stats.comps"), value: t("passion.stats.comps_value") },
+    { icon: Brain, label: t("passion.stats.style"), value: t("passion.stats.style_value") },
+    { icon: Award, label: t("passion.stats.years"), value: "5+" },
   ];
 
   const strengths = [
     {
-      title: "Pensée Stratégique",
+      title: t("passion.strength1.title"),
       icon: Target,
-      color: "from-blue-500 to-cyan-600",
-      description: "Développement d'une vision à long terme et anticipation des mouvements adverses.",
+      color: "from-red-600 to-red-600",
+      description: t("passion.strength1.desc"),
     },
     {
-      title: "Analyse Tactique",
+      title: t("passion.strength2.title"),
       icon: Zap,
       color: "from-purple-500 to-pink-600",
-      description: "Repérage rapide des opportunités tactiques et calcul des variantes complexes.",
+      description: t("passion.strength2.desc"),
     },
     {
-      title: "Gestion du Temps",
+      title: t("passion.strength3.title"),
       icon: Crown,
       color: "from-orange-500 to-red-600",
-      description: "Maîtrise de la cadence et optimisation du temps de réflexion en compétition.",
+      description: t("passion.strength3.desc"),
     },
     {
-      title: "Esprit Compétitif",
+      title: t("passion.strength4.title"),
       icon: Users,
       color: "from-green-500 to-teal-600",
-      description: "Participation active aux tournois et amélioration continue des compétences.",
+      description: t("passion.strength4.desc"),
     },
   ];
 
   const openings = [
-    { name: "Défense Sicilienne", color: "bg-cyan-500/20", textColor: "text-cyan-400" },
-    { name: "Partie Espagnole", color: "bg-blue-500/20", textColor: "text-blue-400" },
-    { name: "Gambit Dame", color: "bg-purple-500/20", textColor: "text-purple-400" },
-    { name: "Défense Française", color: "bg-pink-500/20", textColor: "text-pink-400" },
-    { name: "Ouverture Italienne", color: "bg-orange-500/20", textColor: "text-orange-400" },
-    { name: "Défense Caro-Kann", color: "bg-green-500/20", textColor: "text-green-400" },
+    { name: t("passion.op1"), color: "bg-red-500/20", textColor: "text-red-400" },
+    { name: t("passion.op2"), color: "bg-blue-500/20", textColor: "text-blue-400" },
+    { name: t("passion.op3"), color: "bg-purple-500/20", textColor: "text-purple-400" },
+    { name: t("passion.op4"), color: "bg-pink-500/20", textColor: "text-pink-400" },
+    { name: t("passion.op5"), color: "bg-orange-500/20", textColor: "text-orange-400" },
+    { name: t("passion.op6"), color: "bg-green-500/20", textColor: "text-green-400" },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <div className="pt-24 pb-12 px-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-transparent">
+      <div className="pt-24 pb-12 px-4 bg-transparent">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-8"
           >
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-              Ma Passion : Les Échecs
-            </h1>
-            <p className="text-xl text-cyan-400 max-w-2xl mx-auto font-mono">
-              &gt; Un jeu de stratégie qui nourrit l'esprit analytique
-            </p>
+            <div className="inline-block px-8 py-6 rounded-2xl bg-background/50 backdrop-blur-md border border-red-500/15 shadow-xl shadow-red-500/5">
+              <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+                {t("passion.title")}
+              </h1>
+              <p className="text-xl text-red-400 max-w-2xl mx-auto font-mono">
+                {t("passion.subtitle")}
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
 
       {/* Hero Image Section */}
-      <section className="py-16 px-4 bg-slate-900">
+      <section className="py-16 px-4 bg-transparent">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 items-center mb-16">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="space-y-6"
+              className="space-y-6 p-8 rounded-2xl bg-background/50 backdrop-blur-md border border-red-500/15 shadow-xl shadow-red-500/5"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Une Passion qui Développe l'Esprit
+                {t("passion.heading")}
               </h2>
+              <p className="text-lg text-slate-300">{t("passion.p1")}</p>
               <p className="text-lg text-slate-300">
-                Les échecs sont bien plus qu'un simple jeu pour moi. C'est une passion qui développe
-                la pensée stratégique, la concentration et l'anticipation - des compétences
-                directement applicables à la cybersécurité.
+                {t("passion.p2_before")}
+                <span className="text-red-400 font-bold">1500</span>
+                {t("passion.p2_after")}
               </p>
-              <p className="text-lg text-slate-300">
-                Avec un classement ELO de <span className="text-cyan-400 font-bold">1500</span>, j'ai participé à
-                de nombreuses compétitions qui m'ont appris à gérer la pression, analyser rapidement
-                des situations complexes et prendre des décisions stratégiques.
-              </p>
-              <p className="text-lg text-slate-300">
-                Chaque partie est une opportunité d'apprendre, que ce soit en analysant mes erreurs
-                ou en étudiant les tactiques des grands maîtres.
-              </p>
+              <p className="text-lg text-slate-300">{t("passion.p3")}</p>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="rounded-2xl overflow-hidden shadow-2xl border-2 border-cyan-500/20"
+              className="rounded-2xl overflow-hidden shadow-2xl border-2 border-red-500/20"
             >
               <ImageWithFallback
                 src={chessCompetitionImg}
@@ -149,7 +146,7 @@ export function PassionPage() {
       </section>
 
       {/* Chess.com Live Stats Section */}
-      <section className="py-16 px-4 bg-slate-900">
+      <section className="py-16 px-4 bg-transparent">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -157,18 +154,20 @@ export function PassionPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
-              <TrendingUp className="h-8 w-8 text-cyan-400" />
-              Statistiques Chess.com en Temps Réel
-            </h2>
-            <p className="text-xl text-cyan-400 max-w-2xl mx-auto font-mono">
-              &gt; Profil : bobby-pro
-            </p>
+            <div className="inline-block px-8 py-6 rounded-2xl bg-background/50 backdrop-blur-md border border-red-500/15 shadow-xl shadow-red-500/5">
+              <h2 className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+                <TrendingUp className="h-8 w-8 text-red-400" />
+                {t("passion.live_title")}
+              </h2>
+              <p className="text-xl text-red-400 max-w-2xl mx-auto font-mono">
+                {t("passion.live_subtitle")}
+              </p>
+            </div>
           </motion.div>
 
           {loading && (
             <div className="flex justify-center items-center py-12">
-              <Loader2 className="h-12 w-12 text-cyan-400 animate-spin" />
+              <Loader2 className="h-12 w-12 text-red-400 animate-spin" />
             </div>
           )}
 
@@ -191,7 +190,7 @@ export function PassionPage() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 }}
                 >
-                  <Card className="border-2 border-cyan-500/30 bg-gradient-to-br from-blue-900/30 to-slate-800/50 hover:border-cyan-500/60 transition-all hover:shadow-xl hover:shadow-cyan-500/20">
+                  <Card className="border-2 border-red-500/30 bg-gradient-to-br from-blue-900/30 to-slate-800/50 hover:border-red-500/60 transition-all hover:shadow-xl hover:shadow-red-500/20">
                     <CardHeader>
                       <CardTitle className="text-center text-white flex items-center justify-center gap-2">
                         <Trophy className="h-5 w-5 text-blue-400" />
@@ -199,11 +198,11 @@ export function PassionPage() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="text-center">
-                      <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 mb-2">
+                      <div className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-red-500 mb-2">
                         {chessStats.chess_rapid.last.rating}
                       </div>
                       <Badge className="bg-blue-500/20 text-blue-300 border-blue-400/30">
-                        ELO Actuel
+                        {t("passion.elo_current")}
                       </Badge>
                     </CardContent>
                   </Card>
@@ -229,7 +228,7 @@ export function PassionPage() {
                         {chessStats.chess_blitz.last.rating}
                       </div>
                       <Badge className="bg-purple-500/20 text-purple-300 border-purple-400/30">
-                        ELO Actuel
+                        {t("passion.elo_current")}
                       </Badge>
                     </CardContent>
                   </Card>
@@ -255,7 +254,7 @@ export function PassionPage() {
                         {chessStats.chess_bullet.last.rating}
                       </div>
                       <Badge className="bg-orange-500/20 text-orange-300 border-orange-400/30">
-                        ELO Actuel
+                        {t("passion.elo_current")}
                       </Badge>
                     </CardContent>
                   </Card>
@@ -281,7 +280,7 @@ export function PassionPage() {
                         {chessStats.chess_daily.last.rating}
                       </div>
                       <Badge className="bg-green-500/20 text-green-300 border-green-400/30">
-                        ELO Actuel
+                        {t("passion.elo_current")}
                       </Badge>
                     </CardContent>
                   </Card>
@@ -301,10 +300,10 @@ export function PassionPage() {
                 href="https://www.chess.com/member/bobby-pro"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold hover:from-cyan-600 hover:to-blue-600 transition-all shadow-lg hover:shadow-cyan-500/50"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transition-all shadow-lg hover:shadow-red-500/50"
               >
                 <Trophy className="h-5 w-5" />
-                Voir le profil Chess.com
+                {t("passion.view_chesscom")}
               </a>
             </motion.div>
           )}
@@ -312,7 +311,7 @@ export function PassionPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-slate-900">
+      <section className="py-16 px-4 bg-transparent">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-6 mb-16">
             {stats.map((stat, index) => (
@@ -322,10 +321,10 @@ export function PassionPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + index * 0.1 }}
               >
-                <Card className="border-2 border-cyan-500/20 bg-gradient-to-br from-slate-800/50 to-slate-900/50 text-center py-8 hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10">
+                <Card className="border-2 border-red-500/20 bg-gradient-to-br from-slate-800/50 to-slate-900/50 text-center py-8 hover:border-red-500/50 transition-all hover:shadow-xl hover:shadow-red-500/10">
                   <CardContent>
-                    <stat.icon className="h-10 w-10 text-cyan-400 mx-auto mb-4" />
-                    <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-2">
+                    <stat.icon className="h-10 w-10 text-red-400 mx-auto mb-4" />
+                    <div className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 mb-2">
                       {stat.value}
                     </div>
                     <div className="text-slate-300 text-sm">{stat.label}</div>
@@ -338,7 +337,7 @@ export function PassionPage() {
       </section>
 
       {/* Strengths Section */}
-      <section className="py-16 px-4 bg-slate-900">
+      <section className="py-16 px-4 bg-transparent">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -346,12 +345,14 @@ export function PassionPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Compétences Développées
-            </h2>
-            <p className="text-xl text-cyan-400 max-w-2xl mx-auto">
-              Les échecs m'ont permis de développer des qualités essentielles
-            </p>
+            <div className="inline-block px-8 py-6 rounded-2xl bg-background/50 backdrop-blur-md border border-red-500/15 shadow-xl shadow-red-500/5">
+              <h2 className="text-4xl font-bold text-white mb-4">
+                {t("passion.strengths_title")}
+              </h2>
+              <p className="text-xl text-red-400 max-w-2xl mx-auto">
+                {t("passion.strengths_subtitle")}
+              </p>
+            </div>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -363,7 +364,7 @@ export function PassionPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="border-2 border-cyan-500/20 bg-slate-800/50 hover:border-cyan-500/50 transition-all hover:shadow-xl hover:shadow-cyan-500/10 h-full">
+                <Card className="border-2 border-red-500/20 bg-slate-800/50 hover:border-red-500/50 transition-all hover:shadow-xl hover:shadow-red-500/10 h-full">
                   <CardHeader>
                     <div className="flex items-center gap-3 mb-2">
                       <div
@@ -385,7 +386,7 @@ export function PassionPage() {
       </section>
 
       {/* Openings Section */}
-      <section className="py-16 px-4 bg-slate-900">
+      <section className="py-16 px-4 bg-transparent">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -393,10 +394,12 @@ export function PassionPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-white mb-4">Ouvertures Préférées</h2>
-            <p className="text-xl text-cyan-400 max-w-2xl mx-auto">
-              Mes armes favorites pour débuter une partie
-            </p>
+            <div className="inline-block px-8 py-6 rounded-2xl bg-background/50 backdrop-blur-md border border-red-500/15 shadow-xl shadow-red-500/5">
+              <h2 className="text-4xl font-bold text-white mb-4">{t("passion.openings_title")}</h2>
+              <p className="text-xl text-red-400 max-w-2xl mx-auto">
+                {t("passion.openings_subtitle")}
+              </p>
+            </div>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -404,7 +407,7 @@ export function PassionPage() {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="rounded-2xl overflow-hidden shadow-2xl border-2 border-cyan-500/20"
+              className="rounded-2xl overflow-hidden shadow-2xl border-2 border-red-500/20"
             >
               <ImageWithFallback
                 src={chessBoardImg}
@@ -427,7 +430,7 @@ export function PassionPage() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className={`${opening.color} border border-cyan-500/20 rounded-lg p-4 hover:border-cyan-500/50 transition-all`}
+                    className={`${opening.color} border border-red-500/20 rounded-lg p-4 hover:border-red-500/50 transition-all`}
                   >
                     <h3 className={`text-lg font-semibold ${opening.textColor}`}>
                       {opening.name}
@@ -441,7 +444,7 @@ export function PassionPage() {
       </section>
 
       {/* Quote Section */}
-      <section className="py-16 px-4 bg-slate-900">
+      <section className="py-16 px-4 bg-transparent">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -449,9 +452,9 @@ export function PassionPage() {
             viewport={{ once: true }}
             className="relative"
           >
-            <Card className="border-2 border-cyan-500/30 bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-8">
+            <Card className="border-2 border-red-500/30 bg-gradient-to-br from-slate-800/80 to-slate-900/80 p-8">
               <CardContent className="text-center">
-                <div className="rounded-2xl overflow-hidden mb-8 max-w-md mx-auto border-2 border-cyan-500/20">
+                <div className="rounded-2xl overflow-hidden mb-8 max-w-md mx-auto border-2 border-red-500/20">
                   <ImageWithFallback
                     src={chessThinkingImg}
                     alt="Joueur d'échecs en réflexion"
@@ -459,15 +462,11 @@ export function PassionPage() {
                   />
                 </div>
                 <blockquote className="text-2xl md:text-3xl font-bold text-white mb-4 italic">
-                  "Les échecs sont une gymnastique de l'esprit."
+                  {t("passion.quote")}
                 </blockquote>
-                <p className="text-cyan-400 font-mono">— Blaise Pascal</p>
+                <p className="text-red-400 font-mono">{t("passion.quote_author")}</p>
                 <div className="mt-8 pt-8 border-t border-slate-700">
-                  <p className="text-lg text-slate-300">
-                    Tout comme en cybersécurité, les échecs nécessitent de penser plusieurs coups
-                    à l'avance, d'anticiper les mouvements de l'adversaire et de trouver des
-                    solutions créatives face à des situations complexes.
-                  </p>
+                  <p className="text-lg text-slate-300">{t("passion.closing")}</p>
                 </div>
               </CardContent>
             </Card>

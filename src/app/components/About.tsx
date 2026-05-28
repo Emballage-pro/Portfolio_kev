@@ -1,32 +1,20 @@
 import { Code2, Shield, Terminal } from "lucide-react";
 import { Card, CardContent } from "@/app/components/ui/card";
 import { motion } from "motion/react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import profilePhoto from "../../imports/Photo_CV.png";
+import { useLanguage } from "./LanguageContext";
 
 export function About() {
-  const kaliImg = "https://images.unsplash.com/photo-1656776890105-3d80eb67af13?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjeWJlcnNlY3VyaXR5JTIwa2FsaSUyMGxpbnV4JTIwc2NyZWVufGVufDF8fHx8MTc3MDQ2MzE3MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
-  const profileImg = "https://images.unsplash.com/photo-1615177393114-bd2917a4f74a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBtYW4lMjBwb3J0cmFpdCUyMGN5YmVyc2VjdXJpdHklMjBlbmdpbmVlcnxlbnwxfHx8fDE3NzA0NjMxNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral";
+  const { t } = useLanguage();
 
   const values = [
-    {
-      icon: Shield,
-      title: "Cybersécurité",
-      description: "Passionné par la sécurité offensive, l'analyse de vulnérabilités et la protection des systèmes.",
-    },
-    {
-      icon: Terminal,
-      title: "Pentesting",
-      description: "Pratique régulière sur Root-Me et TryHackMe pour affiner mes compétences en tests d'intrusion.",
-    },
-    {
-      icon: Code2,
-      title: "Développement",
-      description: "Création de sites vitrines et applications web avec backend pour des commerçants via Classor.",
-    },
+    { icon: Shield, title: t("about.value1.title"), description: t("about.value1.desc") },
+    { icon: Terminal, title: t("about.value2.title"), description: t("about.value2.desc") },
+    { icon: Code2, title: t("about.value3.title"), description: t("about.value3.desc") },
   ];
 
   return (
-    <section id="about" className="py-24 px-4 bg-slate-900">
+    <section id="about" className="py-24 px-4 bg-transparent">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -34,12 +22,14 @@ export function About() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            À Propos
-          </h2>
-          <p className="text-xl text-cyan-500 max-w-2xl mx-auto font-mono">
-            &gt; Étudiant ingénieur passionné par la cybersécurité
-          </p>
+          <div className="inline-block px-8 py-6 rounded-2xl bg-background/50 backdrop-blur-md border border-red-500/15 shadow-xl shadow-red-500/5">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+              {t("about.title")}
+            </h2>
+            <p className="text-xl text-red-500 max-w-2xl mx-auto font-mono">
+              {t("about.subtitle")}
+            </p>
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
@@ -47,43 +37,31 @@ export function About() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="space-y-6 p-8 rounded-2xl bg-background/50 backdrop-blur-md border border-red-500/15 shadow-xl shadow-red-500/5"
           >
-            <div className="flex items-center gap-6 mb-8">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-cyan-500 shadow-lg shadow-cyan-500/20 shrink-0">
-                <ImageWithFallback
-                  src={profileImg}
-                  alt="Kevin SABERT"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-foreground">Kevin SABERT</h3>
-                <p className="text-cyan-500 font-mono text-sm">@ksabert_cyber</p>
-              </div>
-            </div>
+            <h3 className="text-2xl font-bold text-foreground mb-4">Kevin SABERT</h3>
+            <p className="text-lg text-muted-foreground">{t("about.p1")}</p>
             <p className="text-lg text-muted-foreground">
-              Actuellement en 2ème année d'école d'ingénieur en informatique et réseau, je me spécialise dans la cybersécurité. Mon parcours m'a permis de développer des compétences solides en sécurité offensive.
+              {t("about.p2_before")}
+              <span className="text-red-500 font-semibold">Classor</span>
+              {t("about.p2_after")}
             </p>
-            <p className="text-lg text-muted-foreground">
-              Je mets mes compétences au service des commerçants en tant qu'autoentrepreneur chez <span className="text-cyan-500 font-semibold">Classor</span>, où je développe des sites vitrines et des applications web avec backend.
-            </p>
-            <p className="text-lg text-muted-foreground">
-              Quand je ne code pas, je perfectionne mes techniques de pentesting sur des plateformes comme Root-Me et TryHackMe, et je travaille sur des outils d'OSINT en Python.
-            </p>
+            <p className="text-lg text-muted-foreground">{t("about.p3")}</p>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl overflow-hidden shadow-2xl border border-border bg-card aspect-video"
+            className="flex justify-center items-center"
           >
-            <ImageWithFallback
-              src={kaliImg}
-              alt="Kali Linux Cybersecurity"
-              className="w-full h-full object-cover"
-            />
+            <div className="rounded-2xl overflow-hidden shadow-2xl border border-border bg-card max-w-md">
+              <img
+                src={profilePhoto}
+                alt="Kevin SABERT"
+                className="w-full h-auto object-contain"
+              />
+            </div>
           </motion.div>
         </div>
 
@@ -96,9 +74,9 @@ export function About() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.2 }}
             >
-              <Card className="border border-border bg-card/50 hover:border-cyan-500/50 transition-all hover:shadow-lg hover:shadow-cyan-500/10">
+              <Card className="border border-border bg-card/50 hover:border-red-500/50 transition-all hover:shadow-lg hover:shadow-red-500/10">
                 <CardContent className="pt-6 text-center space-y-4">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center">
                     <value.icon className="h-8 w-8 text-white" />
                   </div>
                   <h3 className="text-xl font-semibold text-foreground">{value.title}</h3>

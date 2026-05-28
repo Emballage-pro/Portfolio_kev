@@ -83,7 +83,7 @@ export function CodeRainBackground() {
       ctx.textAlign = 'left';
 
       for (const line of lines) {
-        ctx.fillStyle = `rgba(6, 182, 212, ${line.opacity})`; // cyan-500
+        ctx.fillStyle = `rgba(6, 182, 212, ${line.opacity})`; // red-500
         ctx.fillText(line.text, 20, line.y);
 
         // Déplacement vers le bas
